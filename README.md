@@ -50,4 +50,12 @@ To build a nested project folder, simply do the same thing as with building the 
 > Note: To get fast build times using the GNU toolchain, specify `-j <core count>` at the end of your `cmake --build` command.
 
 ## Contributing
-This repository is primarily meant as a reference for stuff I will use at some point, feel free to open PRs for suggestions to existing demos.
+This repository is primarily meant as a reference for stuff I will use at some point, but feel free to open PRs for suggestions to existing demos.
+
+### Creating New Projects
+You can make a project template using the `newproject.bat` script.
+Example:
+```sh
+~/gl-scratchnotes $ newproject.bat 02-shader-testing ShaderTesting
+```
+generates a basic project and a demo-ready CMakeLists.txt.
