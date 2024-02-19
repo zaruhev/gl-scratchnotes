@@ -10,6 +10,18 @@ If you intend to build this project as well as its dependencies, cloning the sub
 ~ $ git clone https://github.com/zaruhev/gl-scratchnotes.git --recurse-submodules
 ```
 
+### For Beginners
+If the CMake building process eludes you at the moment, feel free to run `install.bat`. It will default to the default toolchain of your machine, but use GNU if the core count (first argument) is specified:
+```sh
+~/gl-scratchnotes $ install.bat
+~/gl-scratchnotes $ install.bat 14 # will use GNU toolchain
+...
+~/gl-scratchnotes $ cd 01-hello-window
+~/gl-scratchnotes/01-hello-window $ .\build\HelloWindow.exe
+```
+
+### For Experienced Developers
+
 To build the each of the demo programs in this repository, the dependencies should be built with the `CMakeLists.txt` file at the root of the project.
 
 ```sh
@@ -21,7 +33,13 @@ If you're building with GCC on Windows, you should use specify generating Makefi
 ```
 The same goes for using any other build system that isn't MSVC, which is the Windows default builder.
 
-## Building Subfolders
+After configuring, build the dependencies via:
+```
+~/gl-scratchnotes $ cmake --build build
+```
+> Note: If using GNU/mingw, compile with multiple jobs via `cmake --build build -j <core count>` to minimize compilation times.
+
+### Building Subfolders
 To build a nested project folder, simply do the same thing as with building the dependencies within the root directory in each subfolder. For example:
 ```sh
 ~/gl-scratchnotes/01-hello-window $ cmake -S . -B build
