@@ -5,6 +5,11 @@ Includes dependencies out-of-the-box to avoid any gross stuff.
 
 ## Building
 
+If you intend to build this project as well as its dependencies, cloning the submodules (GLFW and GLM) is necessary as well. Clone the repo via:
+```sh
+~ $ git clone https://github.com/zaruhev/gl-scratchnotes.git --recurse-submodules
+```
+
 To build the each of the demo programs in this repository, the dependencies should be built with the `CMakeLists.txt` file at the root of the project.
 
 ```sh
