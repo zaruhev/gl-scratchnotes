@@ -5,6 +5,7 @@ set FOLDER=%~dp0%1
 set CMAKELISTS="%FOLDER%\CMakeLists.txt"
 set PROJECT_NAME=%2
 
+if NOT "%cd%\"=="%~dp0" (goto :ERR_BAD_DIRECTORY)
 if [%1]==[] (goto :ERR_BAD_ARGS)
 if "%4"=="FIX" (goto :CMAKE_CONFIGURE)
 if exist %FOLDER% (goto :ERR_PATHNAME_UNAVAILABLE)
@@ -23,14 +24,16 @@ echo. >> %CMAKELISTS%
 echo file(GLOB_RECURSE SOURCES "src/*.cpp") >> %CMAKELISTS%
 echo add_executable("%PROJECT_NAME%" ${SOURCES}) >> %CMAKELISTS%
 
-echo target_include_directories("%PROJECT_NAME%" PRIVATE "${CMAKE_SOURCE_DIR}/../libs/glm") >> %CMAKELISTS%
-echo target_include_directories("%PROJECT_NAME%" PRIVATE "${CMAKE_SOURCE_DIR}/../libs/glfw/include") >> %CMAKELISTS%
-echo target_include_directories("%PROJECT_NAME%" PRIVATE "${CMAKE_SOURCE_DIR}/../libs/glad/include") >> %CMAKELISTS%
+set PATH_ROOT=%~dp0
+set PATH_ROOT=%PATH_ROOT:\=/%
+echo target_include_directories("%PROJECT_NAME%" PRIVATE "%PATH_ROOT%/libs/glm") >> %CMAKELISTS%
+echo target_include_directories("%PROJECT_NAME%" PRIVATE "%PATH_ROOT%/libs/glfw/include") >> %CMAKELISTS%
+echo target_include_directories("%PROJECT_NAME%" PRIVATE "%PATH_ROOT%/libs/glad/include") >> %CMAKELISTS%
 echo. >> %CMAKELISTS%
 
-echo target_link_directories("%PROJECT_NAME%" PRIVATE "${CMAKE_SOURCE_DIR}/../build/libs/glad") >> %CMAKELISTS%
-echo target_link_directories("%PROJECT_NAME%" PRIVATE "${CMAKE_SOURCE_DIR}/../build/libs/glfw/src") >> %CMAKELISTS%
-echo target_link_directories("%PROJECT_NAME%" PRIVATE "${CMAKE_SOURCE_DIR}/../build/libs/glm/glm") >> %CMAKELISTS%
+echo target_link_directories("%PROJECT_NAME%" PRIVATE "%PATH_ROOT%/build/libs/glad") >> %CMAKELISTS%
+echo target_link_directories("%PROJECT_NAME%" PRIVATE "%PATH_ROOT%/build/libs/glfw/src") >> %CMAKELISTS%
+echo target_link_directories("%PROJECT_NAME%" PRIVATE "%PATH_ROOT%/build/libs/glm/glm") >> %CMAKELISTS%
 echo. >> %CMAKELISTS%
 
 echo target_link_libraries("%PROJECT_NAME%" PRIVATE glm glfw3 glad) >> %CMAKELISTS%
@@ -60,6 +63,10 @@ echo Template created. Make sure to configure CMake locally. The bootstrap scrip
 
 REM end of WRITE_FOLDER_WITH_CMAKELISTS
 
+goto :eof
+:ERR_BAD_DIRECTORY
+echo.
+echo ERROR: This script must be called in it's directory.
 goto :eof
 :ERR_BAD_ARGS
 echo.
