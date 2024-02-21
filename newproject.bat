@@ -41,8 +41,8 @@ echo target_link_libraries("%PROJECT_NAME%" PRIVATE glm glfw3 glad) >> %CMAKELIS
 echo CMake configuration written to %CMAKELISTS%.
 
 mkdir "%FOLDER%\src"
-if exist "%~dp0\01-hello-window\src\main.cpp" (
-	copy "%~dp0\01-hello-window\src\main.cpp" "%FOLDER%\src\main.cpp" /a
+if exist "%~dp0\demos\01-hello-window\src\main.cpp" (
+	copy "%~dp0\demos\01-hello-window\src\main.cpp" "%FOLDER%\src\main.cpp" /a
 ) else (
 	echo #include ^<iostream^> > "%FOLDER%\src\main.cpp"
 	echo int main^(^) ^{ >> "%FOLDER%\src\main.cpp"
@@ -56,8 +56,8 @@ if NOT [%3]==[] (
 	set BUILDSYS=%3
 	echo Configuring...
 	call cmake -S "%FOLDER%" -B "%FOLDER%\build" -G %3
+	if NOT %errorlevel%==0 (goto :ERR_BAD_CMAKE_CALL)
 )
-if NOT %errorlevel%==0 (goto :ERR_BAD_CMAKE_CALL)
 echo.
 echo Template created. Make sure to configure CMake locally. The bootstrap script ONLY configures and builds 01-hello-window.
 
